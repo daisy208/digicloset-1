@@ -1,0 +1,28 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Cloud Cost Overview",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Estimated CPU Cost ($/hour)",
+        "targets": [
+          {
+            "expr": "sum(cost_cpu_usd)"
+          }
+        ]
+      },
+      {
+        "type": "graph",
+        "title": "Estimated Memory Cost ($/hour)",
+        "targets": [
+          {
+            "expr": "sum(cost_memory_usd)"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 30,
+    "version": 1
+  }
+}

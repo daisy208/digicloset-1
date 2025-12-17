@@ -1,0 +1,99 @@
+import cv2
+import numpy as np
+from PIL import Image, ImageStat
+
+def detect_blur(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    lap_var = cv2.Laplacian(gray, cv2.CV_64F).var()
+    return lap_var  # <100 means blurry
+
+def detect_lighting(pil_image):
+    stat = ImageStat.Stat(pil_image)
+    brightness = sum(stat.mean) / len(stat.mean)
+    return brightness  # <40 too dark, >220 too bright
+
+def detect_occlusion(image):
+    # Stub: Real occlusion detection would use a ML model
+    height, width = image.shape[:2]
+    face_area = image[height//4:3*height//4, width//4:3*width//4]
+    darkness = np.mean(face_area)
+    return darkness < 40  # Very dark central area = likely occluded
+
+def analyze_quality(cv_image, pil_image):
+    blur_score = detect_blur(cv_image)
+    lighting_score = detect_lighting(pil_image)
+    occluded = detect_occlusion(cv_image)
+
+    feedback = []
+
+    if blur_score < 100:
+        feedback.append("Image appears blurry. Please retake with a steadier hand.")
+    if lighting_score < 40:
+        feedback.append("Image is too dark. Try photographing in better lighting.")
+    elif lighting_score > 220:
+        feedback.append("Image is too bright. Avoid direct flash or sunlight.")
+    if occluded:
+        feedback.append("Face may be occluded or shadowed. Make sure your face is fully visible.")
+
+    return {
+        "blur_score": blur_score,
+        "lighting_score": lighting_score,
+        "occluded": occluded,
+        "feedback": feedback,
+        "valid": len(feedback) == 0
+    }
+import cv2
+import numpy as np
+
+def enhance_image(image):
+    # Convert to LAB and equalize lighting
+    lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
+    l, a, b = cv2.split(lab)
+    l_eq = cv2.equalizeHist(l)
+    lab_eq = cv2.merge((l_eq, a, b))
+    lighting_fixed = cv2.cvtColor(lab_eq, cv2.COLOR_LAB2BGR)
+
+    # Sharpening
+    kernel = np.array([[0, -1, 0],
+                       [-1, 5,-1],
+                       [0, -1, 0]])
+    sharpened = cv2.filter2D(lighting_fixed, -1, kernel)
+
+    return sharpened
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.responses import JSONResponse
+from PIL import Image
+import cv2
+import numpy as np
+import io
+
+from image_quality import analyze_quality
+from preprocessing import enhance_image
+
+app = FastAPI()
+
+@app.post("/upload-image")
+async def upload_image(file: UploadFile = File(...)):
+    try:
+        contents = await file.read()
+        npimg = np.frombuffer(contents, np.uint8)
+        cv_img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+        pil_img = Image.open(io.BytesIO(contents)).convert("RGB")
+
+        quality_report = analyze_quality(cv_img, pil_img)
+
+        if not quality_report["valid"]:
+            return JSONResponse(
+                status_code=422,
+                content={
+                    "message": "Image quality is low.",
+                    "feedback": quality_report["feedback"]
+                }
+            )
+
+        enhanced_img = enhance_image(cv_img)
+        # Save or pass enhanced_img to try-on AI pipeline
+        return {"message": "Image accepted and preprocessed", "quality": quality_report}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing image: {str(e)}")

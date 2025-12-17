@@ -1,0 +1,12 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "digicloset-node-dashboard",
+    "title": "Digicloset Node.js Metrics",
+    "panels": [
+      { "type": "graph", "title": "Request Latency", "targets": [{ "expr": "http_request_duration_seconds_avg" }] },
+      { "type": "graph", "title": "CPU Usage", "targets": [{ "expr": "process_cpu_seconds_total" }] },
+      { "type": "graph", "title": "Memory Usage", "targets": [{ "expr": "process_resident_memory_bytes" }] }
+    ]
+  }
+}

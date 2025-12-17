@@ -1,0 +1,15 @@
+-- Create migrations tracking table
+CREATE TABLE IF NOT EXISTS schema_migrations (
+  version VARCHAR(255) PRIMARY KEY,
+  applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Add missing indexes for performance
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_try_on_sessions_user_created 
+ON try_on_sessions(user_id, created_at DESC);
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_analytics_events_brand_type_created 
+ON analytics_events(brand_id, event_type, created_at DESC);
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_clothing_items_category_active_rating 
+ON clothing_items(category, is_active, rating DESC);

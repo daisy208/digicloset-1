@@ -1,0 +1,70 @@
+// React Error Boundary
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean; error?: Error }
+> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // Log to monitoring service
+    console.error('React Error Boundary:', error, errorInfo);
+    
+    // Send to error tracking service
+    if (window.Sentry) {
+      window.Sentry.captureException(error, {
+        contexts: { react: errorInfo }
+      });
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Something went wrong
+            </h1>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-lg"
+            >
+              Reload Page
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+// Performance monitoring
+class PerformanceMonitor {
+  static measureRenderTime(componentName: string) {
+    return function<T extends React.ComponentType<any>>(Component: T): T {
+      return React.forwardRef((props, ref) => {
+        const startTime = performance.now();
+        
+        React.useEffect(() => {
+          const endTime = performance.now();
+          const renderTime = endTime - startTime;
+          
+          if (renderTime > 100) { // Log slow renders
+            console.warn(`Slow render detected: ${componentName} took ${renderTime}ms`);
+          }
+        });
+
+        return <Component {...props} ref={ref} />;
+      }) as T;
+    };
+  }
+}

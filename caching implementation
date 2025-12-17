@@ -1,0 +1,32 @@
+class CacheService {
+  private redis: Redis;
+  
+  async getOrSet<T>(key: string, fetcher: () => Promise<T>, ttl = 3600): Promise<T> {
+    const cached = await this.redis.get(key);
+    if (cached) {
+      return JSON.parse(cached);
+    }
+    
+    const data = await fetcher();
+    await this.redis.setex(key, ttl, JSON.stringify(data));
+    return data;
+  }
+
+  async invalidatePattern(pattern: string): Promise<void> {
+    const keys = await this.redis.keys(pattern);
+    if (keys.length > 0) {
+      await this.redis.del(...keys);
+    }
+  }
+}
+
+// Usage in routes
+router.get('/clothing', async (req, res) => {
+  const cacheKey = `clothing:${JSON.stringify(req.query)}`;
+  const items = await cacheService.getOrSet(
+    cacheKey,
+    () => getClothingItemsFromDB(req.query),
+    1800 // 30 minutes
+  );
+  res.json(items);
+});

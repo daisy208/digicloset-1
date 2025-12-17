@@ -1,0 +1,33 @@
+class ImageOptimizationService {
+  async optimizeAndResize(imageUrl: string, options: {
+    width?: number;
+    height?: number;
+    quality?: number;
+    format?: 'webp' | 'jpeg' | 'png';
+  }): Promise<string> {
+    // Use Sharp for server-side optimization
+    const sharp = require('sharp');
+    
+    const optimized = await sharp(imageUrl)
+      .resize(options.width, options.height, { fit: 'cover' })
+      .jpeg({ quality: options.quality || 80 })
+      .toBuffer();
+    
+    // Upload to CDN
+    return await this.uploadToCDN(optimized);
+  }
+
+  async generateResponsiveImages(imageUrl: string): Promise<{
+    small: string;
+    medium: string;
+    large: string;
+    webp: string;
+  }> {
+    return {
+      small: await this.optimizeAndResize(imageUrl, { width: 300, quality: 70 }),
+      medium: await this.optimizeAndResize(imageUrl, { width: 600, quality: 80 }),
+      large: await this.optimizeAndResize(imageUrl, { width: 1200, quality: 85 }),
+      webp: await this.optimizeAndResize(imageUrl, { width: 600, format: 'webp', quality: 75 })
+    };
+  }
+}

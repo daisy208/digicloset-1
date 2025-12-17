@@ -1,0 +1,1 @@
+{ "name": "Prometheus Alert to Slack (template)", "nodes": [ { "parameters": { "httpMethod": "POST", "path": "alert" }, "name": "Webhook" }, { "parameters": { "webhookUri": "", "text": "Alert: {{$json.message}}" }, "name": "Slack" } ] }

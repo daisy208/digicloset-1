@@ -1,0 +1,15 @@
+// Enhanced connection pooling with monitoring
+const dbConfig = {
+  // ... existing config
+  statement_timeout: 30000,
+  query_timeout: 30000,
+  application_name: 'virtualfit-enterprise',
+  // Connection pool monitoring
+  log: (text: string) => console.log('DB Query:', text),
+  // Advanced pool settings
+  acquireTimeoutMillis: 60000,
+  createTimeoutMillis: 30000,
+  destroyTimeoutMillis: 5000,
+  reapIntervalMillis: 1000,
+  createRetryIntervalMillis: 200
+};

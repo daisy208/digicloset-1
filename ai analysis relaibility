@@ -1,0 +1,84 @@
+import httpx
+from fallback_model import fallback_infer
+import asyncio
+
+REGIONS = [
+    "https://ai-region-a.example.com/infer",
+    "https://ai-region-b.example.com/infer"
+]
+
+FALLBACK_ENABLED = True
+
+async def infer_with_timeout(client, url, payload, timeout=3):
+    try:
+        response = await client.post(url, json=payload, timeout=timeout)
+        response.raise_for_status()
+        return response.json()
+    except Exception:
+        return None
+
+async def ai_infer(payload):
+    async with httpx.AsyncClient() as client:
+        tasks = [infer_with_timeout(client, url, payload) for url in REGIONS]
+        responses = await asyncio.gather(*tasks, return_exceptions=True)
+
+        for res in responses:
+            if isinstance(res, dict):
+                return {"source": "primary", "data": res}
+
+        if FALLBACK_ENABLED:
+            result = fallback_infer(payload)
+            return {"source": "fallback", "data": result}
+
+        raise RuntimeError("All AI services failed.")
+import onnxruntime as ort
+import numpy as np
+
+# Load fallback model once
+session = ort.InferenceSession("models/fallback_model.onnx")
+
+def preprocess(payload):
+    # Convert JSON input to numpy array
+    return np.array(payload["features"], dtype=np.float32).reshape(1, -1)
+
+def fallback_infer(payload):
+    input_data = preprocess(payload)
+    inputs = {session.get_inputs()[0].name: input_data}
+    outputs = session.run(None, inputs)
+    return {"prediction": outputs[0].tolist()}
+from prometheus_client import start_http_server, Counter, Gauge
+
+inference_success = Counter("inference_success_total", "Successful inferences")
+inference_failure = Counter("inference_failure_total", "Failed inferences")
+fallback_usage = Counter("fallback_used_total", "Fallback model used")
+service_health = Gauge("ai_service_health", "Health status of upstream services")
+
+def log_success():
+    inference_success.inc()
+
+def log_failure():
+    inference_failure.inc()
+
+def log_fallback():
+    fallback_usage.inc()
+
+def report_health(is_healthy: bool):
+    service_health.set(1 if is_healthy else 0)
+import asyncio
+from fastapi import FastAPI, Request
+from ai_service import ai_infer
+from monitoring import start_http_server, log_success, log_failure, log_fallback
+
+app = FastAPI()
+start_http_server(9000)  # Prometheus metrics exposed on port 9000
+
+@app.post("/analyze")
+async def analyze(request: Request):
+    payload = await request.json()
+    try:
+        result = await ai_infer(payload)
+        log_success() if result["source"] == "primary" else log_fallback()
+        return result
+    except Exception:
+        log_failure()
+        return {"error": "AI analysis failed. Please try again later."}

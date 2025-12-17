@@ -1,0 +1,22 @@
+ALTER TABLE users ADD COLUMN tenant_id UUID;
+ALTER TABLE outfits ADD COLUMN tenant_id UUID;
+ALTER TABLE uploads ADD COLUMN tenant_id UUID;
+// middleware/withTenant.ts
+export function withTenant(req, res, next) {
+  const tenantId = req.headers['x-tenant-id']; // or decode JWT
+  if (!tenantId) return res.status(400).send("Missing tenant context");
+  req.tenantId = tenantId;
+  next();
+}
+app.use('/api', withTenant, apiRoutes);
+// Old
+const outfits = await db.outfits.findMany({ where: { userId } });
+
+// New
+const outfits = await db.outfits.findMany({
+  where: { userId, tenantId: req.tenantId }
+});
+ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'viewer';
+if (req.user.role !== 'admin') {
+  return res.status(403).json({ error: 'Forbidden' });
+}

@@ -1,96 +1,52 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { Low, JSONFile } = require('lowdb');
-const path = require('path');
-const { nanoid } = require('nanoid');
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, User, Auth } from "firebase/auth";
 
-const router = express.Router();
-
-const dbFile = path.join(__dirname, 'users.json');
-const adapter = new JSONFile(dbFile);
-const db = new Low(adapter);
-
-async function initDB() {
-  await db.read();
-  db.data = db.data || { users: [] };
-  await db.write();
+/**
+ * Helper to extract error message from unknown error types.
+ */
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
 }
-initDB();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
-const JWT_EXP = process.env.JWT_EXPIRES_IN || '1h';
-
-// Register a new user
-router.post('/register', async (req, res) => {
-  await db.read();
-  const { email, password, name } = req.body || {};
-  if (!email || !password) {
-    return res.status(400).json({ error: 'email and password are required' });
+/**
+ * Sign in with email and password.
+ * @param auth - Firebase Auth instance
+ * @param email - User's email address
+ * @param password - User's password
+ * @returns Firebase User object
+ */
+export const signIn = async (
+  auth: Auth,
+  email: string,
+  password: string
+): Promise<User> => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  } catch (error) {
+    throw new Error(getErrorMessage(error));
   }
+};
 
-  const exists = db.data.users.find((u) => u.email === email.toLowerCase());
-  if (exists) {
-    return res.status(409).json({ error: 'User already exists' });
+/**
+ * Sign up with email and password.
+ * @param auth - Firebase Auth instance
+ * @param email - User's email address
+ * @param password - User's password
+ * @returns Firebase User object
+ */
+export const signUp = async (
+  auth: Auth,
+  email: string,
+  password: string
+): Promise<User> => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  } catch (error) {
+    throw new Error(getErrorMessage(error));
   }
+};
 
-  const hashed = await bcrypt.hash(password, 10);
-  const user = {
-    id: nanoid(),
-    email: email.toLowerCase(),
-    name: name || '',
-    password: hashed,
-    createdAt: new Date().toISOString(),
-  };
-
-  db.data.users.push(user);
-  await db.write();
-
-  const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-    expiresIn: JWT_EXP,
-  });
-
-  res.status(201).json({
-    token,
-    user: { id: user.id, email: user.email, name: user.name },
-  });
-});
-
-// Login
-router.post('/login', async (req, res) => {
-  await db.read();
-  const { email, password } = req.body || {};
-  if (!email || !password) {
-    return res.status(400).json({ error: 'email and password are required' });
-  }
-
-  const user = db.data.users.find((u) => u.email === email.toLowerCase());
-  if (!user) {
-    return res.status(401).json({ error: 'Invalid credentials' });
-  }
-
-  const ok = await bcrypt.compare(password, user.password);
-  if (!ok) {
-    return res.status(401).json({ error: 'Invalid credentials' });
-  }
-
-  const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-    expiresIn: JWT_EXP,
-  });
-
-  res.json({
-    token,
-    user: { id: user.id, email: user.email, name: user.name },
-  });
-});
-
-// Protected route - get current user
-const authMiddleware = require('./authMiddleware');
-router.get('/me', authMiddleware, async (req, res) => {
-  await db.read();
-  const user = db.data.users.find((u) => u.id === req.user.id);
-  if (!user) return res.status(404).json({ error: 'User not found' });
-  res.json({ id: user.id, email: user.email, name: user.name });
-});
-
-module.exports = router;

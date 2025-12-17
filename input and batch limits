@@ -1,0 +1,62 @@
+limits:
+  max_images_per_request: 5
+  max_batch_size: 20
+  memory_threshold_mb: 512
+import yaml
+import psutil
+
+with open("config.yaml", "r") as f:
+    config = yaml.safe_load(f)
+
+def is_system_under_threshold():
+    memory = psutil.virtual_memory()
+    return memory.available / (1024 * 1024) > config["limits"]["memory_threshold_mb"]
+
+def validate_input(images):
+    if not is_system_under_threshold():
+        raise MemoryError("System under heavy load. Try again later.")
+    
+    max_images = config["limits"]["max_images_per_request"]
+    if len(images) > max_images:
+        raise ValueError(f"Input exceeds limit: Max {max_images} images per request.")
+from utils import send_to_queue
+
+def process_batch(images):
+    batch_size = len(images)
+    
+    if batch_size == 0:
+        return {"status": "error", "message": "No images provided."}
+
+    send_to_queue("image_queue", images)
+    return {"status": "accepted", "message": f"{batch_size} images sent for processing."}
+from PIL import Image
+import time
+
+def process_image(image_data):
+    # Simulate processing (replace with model logic)
+    time.sleep(1)
+    return f"Processed {image_data['filename']}"
+
+def process_batch(images):
+    return [process_image(img) for img in images]
+def send_to_queue(queue_name, images):
+    # This is a stub. Replace with Celery, AWS SQS, etc.
+    print(f"Sending {len(images)} images to {queue_name}")
+from fastapi import FastAPI, UploadFile, HTTPException
+from limiter import validate_input
+from processor import process_batch
+
+app = FastAPI()
+
+@app.post("/tryon")
+async def try_on(images: list[UploadFile]):
+    try:
+        validate_input(images)
+        response = process_batch(images)
+        return response
+    except MemoryError as me:
+        raise HTTPException(status_code=503, detail=str(me))
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Unexpected error occurred")
