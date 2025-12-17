@@ -1,0 +1,1 @@
+Drop a sample image at examples/sample.jpg to test the Node script.

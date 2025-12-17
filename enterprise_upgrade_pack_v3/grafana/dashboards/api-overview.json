@@ -1,0 +1,17 @@
+{
+  "title": "API Overview",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Request Latency"
+    },
+    {
+      "type": "graph",
+      "title": "Error Rate"
+    },
+    {
+      "type": "graph",
+      "title": "Throughput"
+    }
+  ]
+}
