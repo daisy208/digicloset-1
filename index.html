@@ -11,3 +11,9 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+import { defineConfig } from "vite";
+import { resolve } from "path";
+
+export default defineConfig({
+  root: resolve(__dirname, "frontend_clear"),
+});
