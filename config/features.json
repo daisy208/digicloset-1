@@ -1,0 +1,16 @@
+{
+  "tiers": {
+    "free": ["core", "basic-analytics"],
+    "pro": ["core", "basic-analytics", "audit-logging", "cost-dashboard"],
+    "enterprise": ["core", "basic-analytics", "audit-logging", "cost-dashboard", "observability", "rbac", "retention-policy"]
+  },
+  "features": {
+    "core": true,
+    "basic-analytics": true,
+    "audit-logging": false,
+    "cost-dashboard": false,
+    "observability": false,
+    "rbac": false,
+    "retention-policy": false
+  }
+}
