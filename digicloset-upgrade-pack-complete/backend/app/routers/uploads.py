@@ -1,3 +1,6 @@
+# NOTE: This router implements B2C upload/image flows.
+# DigiCloset B2B pivot: These endpoints are deprioritized and will be removed in a future release.
+# Do not delete yet. See REFRACTOR_PLAN.md for details.
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from fastapi.responses import JSONResponse
 import aiofiles, os, uuid

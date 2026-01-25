@@ -1,3 +1,6 @@
+# NOTE: This router implements B2C user authentication flows.
+# DigiCloset B2B pivot: These endpoints are deprioritized and will be removed in a future release.
+# Do not delete yet. See REFRACTOR_PLAN.md for details.
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from passlib.context import CryptContext
