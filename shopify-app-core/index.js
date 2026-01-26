@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { shopify } from "./shopify.config.js";
+import webhookRouter from './webhook.js';
 
 dotenv.config();
 const app = express();
@@ -23,5 +24,7 @@ app.get("/auth/callback", async (req, res) => {
   });
   res.send("App installed successfully.");
 });
+
+app.use('/webhooks', webhookRouter);
 
 app.listen(3000, () => console.log("Shopify app running on port 3000"));
