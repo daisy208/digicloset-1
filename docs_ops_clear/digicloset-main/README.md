@@ -1,5 +1,7 @@
 # 👕 DigiCloset 
 
+<!-- TODO: This documentation appears to be enterprise-oriented and may not be relevant for the Shopify merchant-focused app. Review and remove if not needed. -->
+
 **DigiCloset is an enterprise-oriented wardrobe management and outfit-planning platform designed to demonstrate how AI-driven personalization systems can be built, deployed, and operated at production scale.**
 
 While the domain is wardrobe management, the core focus of this project is **enterprise-grade system design**, not consumer novelty.

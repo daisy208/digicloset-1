@@ -1,39 +1,42 @@
-## DigiCloset
 
-DigiCloset is a modular, AI-powered digital wardrobe and fashion management platform. It helps users organize, recommend, and optimize clothing choices using advanced machine learning and data analytics.
+# DigiCloset: Shopify "Complete the Look" Outfit Bundles
 
-### Target Users
-- **B2C:** Individual consumers seeking smart wardrobe management, outfit recommendations, and virtual try-on experiences.
-- **B2B:** Retailers, fashion brands, and e-commerce platforms integrating AI-driven personalization, inventory insights, and customer engagement tools.
+DigiCloset is a Shopify custom/private app for merchants. It uses AI to generate “Complete the Look” outfit bundles from your product catalog, helping you increase average order value and deliver personalized shopping experiences.
 
-### Architecture Overview
-DigiCloset follows a modern, scalable monorepo structure:
-- **apps/**: User-facing applications (e.g., frontend web, admin portal)
-- **services/**: Core backend, AI/model, and orchestration services
-- **packages/**: Shared libraries, utilities, and configuration
-- **infra/**: Deployment, CI/CD, and infrastructure as code
-All features are controlled via configuration flags, enabling flexible tiering (Free, Pro, Enterprise) without code duplication.
+## What It Does
+- Analyzes your Shopify product catalog
+- Suggests AI-powered outfit bundles (tops, bottoms, accessories, etc.)
+- Designed for Shopify merchants and store staff
+- Simple, focused, and production-ready for merchant use
 
-### How to Run Locally
-1. Clone the repository and install dependencies:
+## How to Use
+1. **Install the app** in your Shopify store (private/custom app setup)
+2. **Sync your product catalog** (automatic or manual trigger)
+3. **View and edit suggested outfit bundles** in the merchant dashboard
+4. **Publish bundles** to your storefront or use in marketing
+
+## Local Development
+1. Clone this repository:
    ```bash
    git clone <repo-url>
    cd digicloset
-   # Install dependencies for all apps/services (use your package manager)
    ```
-2. Start required services (e.g., backend, model-service, frontend):
+2. Install dependencies and start services:
    ```bash
    # Example using Docker Compose
-   docker-compose -f infra/docker/docker-compose.dev.yml up
+   docker-compose -f digicloset-upgrade-pack/docker-compose.dev.yml up
    ```
-3. Access the frontend at http://localhost:3000 and API at http://localhost:8000 (ports may vary).
+3. Access the merchant dashboard at http://localhost:3000 (or as configured)
 
-### Where to Add Features
-- **Frontend features:** apps/frontend/
-- **Backend logic & APIs:** services/backend/
-- **AI/model logic:** services/model-service/
-- **Shared code/utilities:** packages/
-- **Infrastructure/config:** infra/
-Enable or restrict features by updating config/features.json.
+## Key Folders
+- **digicloset-upgrade-pack/**: Main backend, model service, and infra for Shopify merchant use
+- **ai-service-layer/**: AI logic for outfit bundle generation
+- **config/**: App and integration configuration
 
-For more details, see the docs/ directory.
+## For Developers
+- Keep all features merchant/store-focused
+- Do not add enterprise, hackathon, or experimental scaffolding
+- See comments in deprecated folders for what is safe to delete
+
+## Support
+Open an issue or contact the maintainers for help with Shopify integration or merchant onboarding.

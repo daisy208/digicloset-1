@@ -1,0 +1,1 @@
+DEPRECATED: This folder is not relevant for the Shopify merchant-focused app. Safe to delete if not needed for reference.
