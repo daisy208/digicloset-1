@@ -1,0 +1,9 @@
+model AiResult {
+  id        String   @id @default(cuid())
+  shop      String
+  productId String
+  category  String
+  tags      Json
+  confidence Float
+  createdAt DateTime @default(now())
+}
