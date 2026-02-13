@@ -62,7 +62,7 @@ jobs:
           done
 
           # Generate the subjects (base64 encoded).
-          digests="$(sha256sum "${files[@]}" | base64 -w0)"
+          digests="$(sha256sum "${files[@]}" | base64 | tr -d "\n")"
           test -n "$digests"
           echo "digests=$digests" >> "${GITHUB_OUTPUT}"
 
