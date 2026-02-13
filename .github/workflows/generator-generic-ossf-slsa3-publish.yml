@@ -16,9 +16,13 @@ on:
   release:
     types: [created]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       digests: ${{ steps.hash.outputs.digests }}
 
@@ -32,6 +36,7 @@ jobs:
       # ========================================================
       - name: Build artifacts
         run: |
+          set -euo pipefail
           # These are some amazing artifacts.
           echo "artifact1" > artifact1
           echo "artifact2" > artifact2
@@ -46,13 +51,20 @@ jobs:
       # ========================================================
       - name: Generate subject for provenance
         id: hash
+        shell: bash
         run: |
           set -euo pipefail
 
           # List the artifacts the provenance will refer to.
           files=(artifact1 artifact2)
+          for file in "${files[@]}"; do
+            test -f "$file"
+          done
+
           # Generate the subjects (base64 encoded).
-          echo "digests=$(sha256sum \"${files[@]}\" | base64 -w0)" >> "${GITHUB_OUTPUT}"
+          digests="$(sha256sum "${files[@]}" | base64 -w0)"
+          test -n "$digests"
+          echo "digests=$digests" >> "${GITHUB_OUTPUT}"
 
   provenance:
     needs: [build]
