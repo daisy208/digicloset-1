@@ -1,23 +1,21 @@
-name: Build
-on: [push]
+name: Node CI
+on: [push, pull_request]
+
 jobs:
-  build:
+  node-checks:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: shopify-app-core
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-      - name: Cache node modules
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      - name: Install & Lint
-        run: |
-          npm ci
-          npm run lint || true
-      - name: Build docker images
-        run: |
-          ./ci/scripts/docker-build-all.sh
+          node-version: '20'
+      - run: npm install --legacy-peer-deps
+      - env:
+          SHOPIFY_SCOPES: read_products
+          SHOPIFY_APP_URL: http://localhost
+          SHOPIFY_API_KEY: dummy
+          SHOPIFY_API_SECRET: dummy
+        run: timeout 10s node -e "import('./index.js')" || test $? -eq 124

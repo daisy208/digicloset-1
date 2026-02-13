@@ -1,9 +1,0 @@
-version: '3.9'
-
-services:
-  prometheus:
-    image: prom/prometheus
-    volumes:
-      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - '9090:9090'

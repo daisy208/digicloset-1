@@ -5,7 +5,6 @@ This pack adds enterprise-grade **CI/CD automation** for Digicloset.
 
 ### Key Features
 - ✅ Automatic testing on each PR or commit to `main`
-- 🧱 Docker image builds and pushes to **GitHub Container Registry (GHCR)**
 - 🔍 Security scanning (Bandit, ESLint, Trivy)
 - 🗄 Supabase DB migration automation
 

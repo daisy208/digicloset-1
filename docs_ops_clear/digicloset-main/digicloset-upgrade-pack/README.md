@@ -3,7 +3,6 @@ DigiCloset Upgrade Pack - Uploadable code skeleton
 This archive contains a minimal, functional skeleton to start implementing the upgrade pack:
   - backend/ : FastAPI skeleton with auth, upload, and infer endpoints (in-memory demo).
   - model-service/: stub service for model inference (replace with real model).
-  - docker-compose.dev.yml : dev orchestration (postgres + minio + backend + model).
   - infra/helm : helm chart skeleton.
   - .github/workflows/ci.yml : CI skeleton.
 

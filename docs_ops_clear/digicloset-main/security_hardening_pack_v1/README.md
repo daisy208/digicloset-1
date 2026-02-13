@@ -4,7 +4,6 @@ This pack contains templates, configuration files, scripts, and policies to hard
 
 **Contents overview:**
 - CI security workflows (SAST, SCA, SBOM, secret scanning)
-- Container hardening (Dockerfile best-practices, image scanner)
 - Kubernetes security (Gatekeeper/OPA Rego policies, PodSecurity admission recommendations)
 - Secrets management (HashiCorp Vault example)
 - Runtime protection and WAF (ModSecurity sample)

@@ -1,18 +1,17 @@
 .PHONY: build up down test lint migrate
 
 build:
-	docker-compose build
+	echo "No container build step configured"
 
 up:
-	docker-compose up --remove-orphans
+	echo "Run services directly with Node/Python entrypoints"
 
 down:
-	docker-compose down --volumes
+	echo "No container teardown required"
 
 test:
 	# Placeholder: run basic tests for services
 	echo "Run tests (implement per-service)"
-	# e.g. (cd services/backend && npm test) && (cd services/frontend && npm test)
 
 lint:
 	# Placeholder lints

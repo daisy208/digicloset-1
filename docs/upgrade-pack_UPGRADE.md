@@ -3,14 +3,11 @@ Upgrade pack: how to apply in this repository
 
 1) Inspect and adapt templates
    - Review upgrade-pack/package.json and add your actual dependencies.
-   - Update Dockerfile environment variables, port, and start command if your app differs.
    - Edit .github/workflows/ci-cd.yml: set image registry secrets and any project-specific steps.
 
 2) Copy files into repo
    - Create a directory `upgrade-pack` in repo root for review, or move files into appropriate roots:
      - LICENSE -> /LICENSE
-     - Dockerfile -> /Dockerfile (or /docker/Dockerfile)
-     - .dockerignore -> /.dockerignore
      - package.json -> /package.json (merge with existing if present)
      - .github/workflows/ci-cd.yml -> /.github/workflows/ci-cd.yml
      - CONTRIBUTING.md -> /CONTRIBUTING.md
@@ -27,12 +24,10 @@ Upgrade pack: how to apply in this repository
    - Push to a feature branch and open a PR. Ensure workflow runs and passes.
 
 5) Containerization & deployment
-   - Build image locally: docker build -t myregistry/digicloset:prerelease .
    - Push to your registry or configure workflow to push on release.
 
 6) Security & scanning
    - Enable Dependabot (or Snyk) and GitHub code scanning.
    - Generate SBOM as part of CI if required.
 
-If you want, I can prepare PR-ready file contents that replace your existing Dockerfile_Version1.txt and wire the package.json to actual dependencies found in the repo. 
 ```

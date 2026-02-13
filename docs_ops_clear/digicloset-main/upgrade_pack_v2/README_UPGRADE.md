@@ -6,7 +6,6 @@ Run `./apply-upgrade-pack.sh` from the repository root (it will only *print* act
 
 **Main fixes included:**
 - Normalize directory names (remove trailing spaces)
-- Add unified Dockerfile + docker-compose for local dev
 - Add GitHub Actions CI pipeline (lint, test, build)
 - Consolidate environment variables and examples
 - Add dependency manifests (requirements.txt, package.json consolidated)

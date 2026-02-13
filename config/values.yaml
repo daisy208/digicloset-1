@@ -1,8 +1,6 @@
 replicaCount: 1
 
 image:
-  nodeRepository: yourdockerhubusername/digicloset-node
-  pythonRepository: yourdockerhubusername/digicloset-python
   tag: latest
   pullPolicy: Always
 
