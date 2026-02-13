@@ -32,9 +32,9 @@ jobs:
       # ========================================================
       - name: Build artifacts
         run: |
-            # These are some amazing artifacts.
-            echo "artifact1" > artifact1
-            echo "artifact2" > artifact2
+          # These are some amazing artifacts.
+          echo "artifact1" > artifact1
+          echo "artifact2" > artifact2
 
       # ========================================================
       #
@@ -52,12 +52,12 @@ jobs:
           # List the artifacts the provenance will refer to.
           files=$(ls artifact*)
           # Generate the subjects (base64 encoded).
-          echo "hashes=$(sha256sum $files | base64 -w0)" >> "${GITHUB_OUTPUT}"
+          echo "digests=$(sha256sum $files | base64 -w0)" >> "${GITHUB_OUTPUT}"
 
   provenance:
     needs: [build]
     permissions:
-      actions: read   # To read the workflow path.
+      actions: read # To read the workflow path.
       id-token: write # To sign the provenance.
       contents: write # To add assets to a release.
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.4.0
