@@ -16,4 +16,4 @@ Thank you for your interest in contributing! To keep the codebase clean and main
 - Reuse and extend existing modules where possible.
 - Keep documentation up to date for any new features or changes.
 
-For questions, open an issue or contact a maintainer.
+For questions, open an issue or contact the maintainer, **Aditi Singh** ([@aditisingh2310](https://github.com/aditisingh2310)).

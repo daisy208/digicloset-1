@@ -1,5 +1,14 @@
-Model service placeholder.
-This service expects to run on a GPU node. For the skeleton it returns a sample result.
-Use `serve.py` to start a dev server.
+# Model Service
 
-<!-- TODO: Confirm if this model service is required for Shopify merchant outfit bundle generation, or if it is legacy/experimental. -->
+This service provides AI-powered outfit bundle generation capabilities. It is designed to run on a GPU-enabled node for optimal performance, though it currently operates as a stub returning sample results for development purposes.
+
+## Usage
+
+### Local Development
+You can start the development server using the main `serve.py` script:
+```bash
+python serve.py
+```
+
+### Docker
+The service is containerized and can be built using the provided Dockerfile. Refer to the root `README.md` or `local_verification.ps1` for build instructions.

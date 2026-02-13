@@ -1,38 +1,51 @@
-```text
-Upgrade pack: how to apply in this repository
+# Upgrade Pack Integration Guide
 
-1) Inspect and adapt templates
-   - Review upgrade-pack/package.json and add your actual dependencies.
-   - Update Dockerfile environment variables, port, and start command if your app differs.
-   - Edit .github/workflows/ci-cd.yml: set image registry secrets and any project-specific steps.
+This guide outlines the steps to integrate the upgrade pack into your repository.
 
-2) Copy files into repo
-   - Create a directory `upgrade-pack` in repo root for review, or move files into appropriate roots:
-     - LICENSE -> /LICENSE
-     - Dockerfile -> /Dockerfile (or /docker/Dockerfile)
-     - .dockerignore -> /.dockerignore
-     - package.json -> /package.json (merge with existing if present)
-     - .github/workflows/ci-cd.yml -> /.github/workflows/ci-cd.yml
-     - CONTRIBUTING.md -> /CONTRIBUTING.md
-     - SECURITY.md -> /SECURITY.md
-     - UPGRADE.md -> /UPGRADE.md (keep a copy here)
+## 1. Inspect and Adapt Templates
+- **Dependencies**: Review `upgrade-pack/package.json` and merge dependencies into your project's `package.json`.
+- **Docker Configuration**: Update environment variables, ports, and start commands in the `Dockerfile` to match your application requirements.
+- **CI/CD**: Edit `.github/workflows/ci-cd.yml` to configure image registry secrets and any project-specific build steps.
 
-3) Validate locally
-   - Install dependencies: npm ci (or yarn/pnpm)
-   - Build: npm run build
-   - Run tests: npm test
-   - Run locally: npm start (or npm run dev)
+## 2. File Integration
+Copy the following files from the `upgrade-pack` directory to your repository root:
+- `LICENSE` -> `/LICENSE`
+- `Dockerfile` -> `/Dockerfile`
+- `.dockerignore` -> `/.dockerignore`
+- `package.json` -> `/package.json` (Merge with existing)
+- `.github/workflows/ci-cd.yml` -> `/.github/workflows/ci-cd.yml`
+- `CONTRIBUTING.md` -> `/CONTRIBUTING.md`
+- `SECURITY.md` -> `/SECURITY.md`
+- `UPGRADE.md` -> `/UPGRADE.md`
 
-4) Test CI
-   - Push to a feature branch and open a PR. Ensure workflow runs and passes.
+## 3. Local Validation
+1. **Install Dependencies**:
+   ```bash
+   npm ci
+   ```
+2. **Build Project**:
+   ```bash
+   npm run build
+   ```
+3. **Run Tests**:
+   ```bash
+   npm test
+   ```
+4. **Start Application**:
+   ```bash
+   npm run dev
+   ```
 
-5) Containerization & deployment
-   - Build image locally: docker build -t myregistry/digicloset:prerelease .
-   - Push to your registry or configure workflow to push on release.
+## 4. CI/CD Testing
+Push your changes to a feature branch and open a Pull Request. Ensure that the configured GitHub Actions workflows run and pass successfully.
 
-6) Security & scanning
-   - Enable Dependabot (or Snyk) and GitHub code scanning.
-   - Generate SBOM as part of CI if required.
+## 5. Containerization & Deployment
+1. **Build Docker Image**:
+   ```bash
+   docker build -t myregistry/digicloset:prerelease .
+   ```
+2. **Push Image**: Push the image to your container registry or ensure the CI workflow performs this step on release.
 
-If you want, I can prepare PR-ready file contents that replace your existing Dockerfile_Version1.txt and wire the package.json to actual dependencies found in the repo. 
-```
+## 6. Security & Scanning
+- Enable Dependabot and GitHub Code Scanning.
+- Generate and verify SBOMs as part of the CI pipeline.

@@ -19,6 +19,12 @@ jobs:
           - name: model-service-complete
             context: ./digicloset-upgrade-pack-complete
             dockerfile: ./digicloset-upgrade-pack-complete/model-service/Dockerfile
+          - name: backend
+            context: ./digicloset-upgrade-pack
+            dockerfile: ./digicloset-upgrade-pack/backend/Dockerfile
+          - name: backend-complete
+            context: ./digicloset-upgrade-pack-complete
+            dockerfile: ./digicloset-upgrade-pack-complete/backend/Dockerfile
 
     steps:
       - uses: actions/checkout@v4

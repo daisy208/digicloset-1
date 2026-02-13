@@ -21,22 +21,37 @@ DigiCloset is a Shopify custom/private app for merchants. It uses AI to generate
    git clone <repo-url>
    cd digicloset
    ```
+
 2. Install dependencies and start services:
+   The project consists of a frontend (Shopify app), a backend (FastAPI), and a model service (AI stub).
+   
+   **Using Docker Compose:**
    ```bash
-   # Example using Docker Compose
-   docker-compose -f digicloset-upgrade-pack/docker-compose.dev.yml up
+   docker-compose -f digicloset-upgrade-pack/docker-compose.dev.yml up --build
    ```
-3. Access the merchant dashboard at http://localhost:3000 (or as configured)
+   This command starts the Postgres database, MinIO object storage, Backend service (port 8000), and Model service (port 8001).
+
+   **Verifying Builds Locally:**
+   A PowerShell script is available to verify that all Docker images build correctly:
+   ```powershell
+   ./local_verification.ps1
+   ```
+
+3. Access the services:
+   - **Merchant Dashboard**: http://localhost:3000 (requires frontend dev server)
+   - **Backend API**: http://localhost:8000/docs
+   - **Model Service**: http://localhost:8001
 
 ## Key Folders
-- **digicloset-upgrade-pack/**: Main backend, model service, and infra for Shopify merchant use
-- **ai-service-layer/**: AI logic for outfit bundle generation
-- **config/**: App and integration configuration
+- **digicloset-upgrade-pack/**: Contains the main backend `app/`, `model-service/`, and infrastructure configurations for the standard deployment.
+- **digicloset-upgrade-pack-complete/**: Contains the complete version of the upgrade pack with additional features or configurations.
+- **ai-service-layer/**: Logic for the AI-powered outfit bundle generation.
+- **config/**: Configuration files for the application and integrations.
 
 ## For Developers
-- Keep all features merchant/store-focused
-- Do not add enterprise, hackathon, or experimental scaffolding
-- See comments in deprecated folders for what is safe to delete
+- **Focus**: Keep all features focused on the Shopify merchant experience.
+- **Restrictions**: Do not add enterprise, hackathon, or experimental scaffolding without approval.
+- **Cleanup**: Refer to comments in deprecated folders regarding safe deletion.
 
 ## Support
-Open an issue or contact the maintainers for help with Shopify integration or merchant onboarding.
+Open an issue or contact the maintainer, **Aditi Singh** ([@aditisingh2310](https://github.com/aditisingh2310)), for assistance with Shopify integration or merchant onboarding.
