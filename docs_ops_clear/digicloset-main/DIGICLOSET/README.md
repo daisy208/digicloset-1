@@ -6,4 +6,3 @@ This repository contains both the frontend (React + Vite) and the enterprise bac
 - `src/` - Frontend React components
 - `services/` - Backend microservices including VITON-HD inference service
 - `api-gateway/` - API Gateway configuration
-- `deployments/` - Docker Compose and Kubernetes manifests

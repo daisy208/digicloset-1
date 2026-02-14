@@ -8,7 +8,6 @@
         - Storage: Cloud object store (S3-compatible) for user assets
 
 ## Deployment
-        - Docker images for each service
         - Kubernetes for orchestration (Deployment, Service, Ingress)
         - CI builds images and pushes to private registry; CD deploys Helm chart
 

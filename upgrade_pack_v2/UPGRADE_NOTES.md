@@ -3,14 +3,12 @@
 
 ## Goals
 - Fix broken paths (directories containing spaces)
-- Create reproducible builds (single top-level Dockerfile)
 - Consolidate environment management and secrets
 - Add CI pipeline for code quality and tests
 - Provide instructions & automation to apply changes safely
 
 ## Steps performed by scripts in this pack
 1. Detect directories/filenames containing whitespace and offer renaming mappings.
-2. Generate a single `Dockerfile` and `docker-compose.yml` for local dev.
 3. Create `.github/workflows/ci.yml` with lint/test/build steps for Node and Python.
 4. Create `requirements.txt` and `package.json` placeholders for dependency management.
 5. Add simple unit tests and linters (flake8, eslint) configuration.

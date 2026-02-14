@@ -5,7 +5,6 @@
 - Blue/green or rolling deployments
 
 ## Incidents
-- Rollback via Docker image
 - Review logs and metrics
 
 ## Backups

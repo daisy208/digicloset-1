@@ -1,0 +1,63 @@
+Running End-to-End Tests via Docker...
+dca8d1336422c88dbf6dee8270049f8c284a03c4ac2c9341d683855d87655f9c
+Starting Backend...
+b63ff8dad03f5a04c05580055c59a42754cb379f02fd90859d8752eb1d84adbb
+Running Tests...
+Collecting requests
+  Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+Collecting python-dotenv
+  Downloading python_dotenv-1.2.1-py3-none-any.whl.metadata (25 kB)
+Collecting charset_normalizer<4,>=2 (from requests)
+  Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB)
+Collecting idna<4,>=2.5 (from requests)
+  Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+Collecting urllib3<3,>=1.21.1 (from requests)
+  Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+Collecting certifi>=2017.4.17 (from requests)
+  Downloading certifi-2026.1.4-py3-none-any.whl.metadata (2.5 kB)
+Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.7/64.7 kB 3.1 MB/s eta 0:00:00
+Downloading python_dotenv-1.2.1-py3-none-any.whl (21 kB)
+Downloading certifi-2026.1.4-py3-none-any.whl (152 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 152.9/152.9 kB 3.9 MB/s eta 0:00:00
+Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (151 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 151.6/151.6 kB 5.0 MB/s eta 0:00:00
+Downloading idna-3.11-py3-none-any.whl (71 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.0/71.0 kB 4.0 MB/s eta 0:00:00
+Downloading urllib3-2.6.3-py3-none-any.whl (131 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 131.6/131.6 kB 5.1 MB/s eta 0:00:00
+Installing collected packages: urllib3, python-dotenv, idna, charset_normalizer, certifi, requests
+Successfully installed certifi-2026.1.4 charset_normalizer-3.4.4 idna-3.11 python-dotenv-1.2.1 requests-2.32.5 urllib3-2.6.3
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 24.0 -> 26.0.1
+[notice] To update, run: pip install --upgrade pip
+Starting Python Test Script...
+Running tests against http://backend:8000...
+Health check response: 200 {"message":"DigiCloset backend - upgrade pack placeholder"}
+Health check passed!
+Step 1: Uploading image...
+Upload response: 200 {"id":"b13267ce2c29478fba9ddf338fc33fd2.jpg","path":"/tmp/digicloset_uploads/b13267ce2c29478fba9ddf338fc33fd2.jpg","size":12}
+Upload ID: b13267ce2c29478fba9ddf338fc33fd2.jpg
+Step 2: Submitting inference job...
+Infer response: 200 {"job_id":"83c42430f6414d73a594a1d750653d27","status":"queued"}
+Job ID: 83c42430f6414d73a594a1d750653d27
+Step 3: Polling job status...
+Status response: 200 {"job_id":"83c42430f6414d73a594a1d750653d27","meta":"{'job_id': '83c42430f6414d73a594a1d750653d27', 'upload_id': 'b13267ce2c29478fba9ddf338fc33fd2.jpg', 'garment_id': 'test_garment'}","status":"queued"}
+Job is queued as expected.
+Try-on flow passed!
+All tests passed!
+Cleaning up...
+--- BACKEND LOGS ---
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     172.18.0.3:47596 - "GET / HTTP/1.1" 200 OK
+INFO:     172.18.0.3:47606 - "POST /api/v1/uploads/ HTTP/1.1" 200 OK
+INFO:     172.18.0.3:47608 - "POST /api/v1/infer/ HTTP/1.1" 200 OK
+INFO:     172.18.0.3:47618 - "GET /api/v1/infer/83c42430f6414d73a594a1d750653d27 HTTP/1.1" 200 OK
+--------------------
+backend
+backend
+digicloset-test-net

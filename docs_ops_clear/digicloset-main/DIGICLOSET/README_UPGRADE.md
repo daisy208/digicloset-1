@@ -1,7 +1,6 @@
 ## How to integrate this Frontend Upgrade Pack (Minimal) into your Digicloset project
 
 1. **Copy files** from this pack into the root of your frontend project (where package.json and src/ live).
-   - Dockerfile, nginx.conf, .dockerignore, vite.config.ts, tailwind.config.cjs, postcss.config.cjs, env.example, README.md
 
 2. **Install required dependencies** (if missing):
    ```bash
@@ -23,10 +22,7 @@
    ```
    The production output will be in `dist/`
 
-5. **Build Docker image**:
    ```bash
-   docker build -t digicloset-frontend:prod .
-   docker run -p 8080:80 digicloset-frontend:prod
    ```
    Then open http://localhost:8080
 
@@ -35,5 +31,4 @@
    - If you serve over HTTPS add HSTS header in nginx.conf
 
 7. **Notes (minimal pack)**:
-   - This pack focuses on production readiness for Docker+Nginx and build optimizations.
    - It intentionally excludes optional enterprise add-ons like PWA, Storybook, telemetry, and complex CI/CD.

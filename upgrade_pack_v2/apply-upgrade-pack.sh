@@ -22,8 +22,6 @@ cat <<'CMD'
 CMD
 
 echo
-echo "2) Add Dockerfile and docker-compose.yml (provided in upgrade pack)."
-echo "   Copy them into repo root and run: docker-compose up --build"
 echo
 echo "3) Add CI pipeline (.github/workflows/ci.yml)."
 echo "   Push to remote to trigger pipeline."

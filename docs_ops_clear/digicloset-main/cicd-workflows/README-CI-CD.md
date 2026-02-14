@@ -6,8 +6,6 @@ This archive contains several example CI/CD configurations tailored to this Vite
 Included:
 - `.github/workflows/ci.yml` — Standard CI (install, lint, build).
 - `.github/workflows/deploy-gh-pages.yml` — Build and deploy to GitHub Pages (push to `main`).
-- `.github/workflows/docker-build-push.yml` — Build Docker image and push to GitHub Container Registry (ghcr.io).
-- `Dockerfile` — Multi-stage Dockerfile that builds the Vite app and serves with nginx.
 - `.gitlab-ci.yml` — GitLab CI pipeline (install, lint, build, pages deploy).
 - `bitbucket-pipelines.yml` — Bitbucket Pipelines example.
 - `README-CI-CD.md` (this file)
@@ -16,7 +14,6 @@ Included:
 
 ### GitHub
 - For `deploy-gh-pages.yml`, no extra secret is required beyond the default `GITHUB_TOKEN`.
-- For `docker-build-push.yml`, the workflow uses `GITHUB_TOKEN` to authenticate to GHCR. If you prefer Docker Hub, replace the login step and provide `DOCKER_USERNAME` and `DOCKER_PASSWORD` secrets.
 
 ### GitLab
 - For pushing images to GitLab Container Registry or deploying to another target, set `CI_REGISTRY_USER` and `CI_REGISTRY_PASSWORD` in project CI/CD settings.
@@ -29,10 +26,8 @@ This project is a static frontend (Vite). Common targets:
 - **Vercel** — Connect GitHub repo for instant deployments.
 - **Netlify** — Connect repo or use `netlify` CLI in CI to deploy `dist`.
 - **GitHub Pages** — Configured in `deploy-gh-pages.yml`.
-- **Docker** — Build image from `Dockerfile` and run behind a reverse proxy.
 
 ## Customization
 - If you have tests, add a `test` job and run `npm test`.
 - Adjust Node versions in the workflows if your project requires a different runtime.
 - Replace `publish_dir` or `dist` paths if your Vite config outputs elsewhere.
-
