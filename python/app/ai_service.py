@@ -6,6 +6,7 @@ from backend.logger import get_logger
 logger = get_logger(__name__)
 import os
 import io
+import base64
 import time
 import asyncio
 import logging
@@ -461,17 +462,10 @@ async def test_model_health(model: Any, model_name: str) -> bool:
 
 if __name__ == "__main__":
     uvicorn.run(
-        "ai_service:app",
+        "python.app.ai_service:app",
         host="0.0.0.0",
         port=8000,
         reload=False,
         workers=1,  # Single worker for GPU models
         log_level="info"
     )
-from fastapi import FastAPI
-
-app = FastAPI()
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
