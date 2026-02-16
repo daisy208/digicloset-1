@@ -9,6 +9,11 @@ DigiCloset is a Shopify custom/private app for merchants. It uses AI to generate
 - Designed for Shopify merchants and store staff
 - Simple, focused, and production-ready for merchant use
 
+## API Contract
+- Canonical application API routes use `/api/v1/...`.
+- Primary analyze endpoint: `/api/v1/analyze`.
+- Legacy endpoint `/api/analyze` is compatibility-only and will be removed in a future cleanup.
+
 ## How to Use
 1. **Install the app** in your Shopify store (private/custom app setup)
 2. **Sync your product catalog** (automatic or manual trigger)
@@ -47,6 +52,7 @@ DigiCloset is a Shopify custom/private app for merchants. It uses AI to generate
 - **digicloset-upgrade-pack-complete/**: Contains the complete version of the upgrade pack with additional features or configurations.
 - **ai-service-layer/**: Logic for the AI-powered outfit bundle generation.
 - **config/**: Configuration files for the application and integrations.
+- **legacy/upgrade packs** (`upgrade-pack*`, `enterprise_upgrade_pack*`, `ultimate-enterprise-pack`, `security_hardening_pack_v1`): archive/reference content and non-primary route sets.
 
 ## For Developers
 - **Focus**: Keep all features focused on the Shopify merchant experience.

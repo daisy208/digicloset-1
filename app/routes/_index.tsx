@@ -10,7 +10,7 @@ export default function Index() {
         productId: "gid://shopify/Product/123456789",
         imageUrl: "https://via.placeholder.com/300"
       },
-      { method: "post", action: "/api/analyze" }
+      { method: "post", action: "/api/v1/analyze" }
     );
   };
 
