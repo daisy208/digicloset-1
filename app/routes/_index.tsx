@@ -25,6 +25,16 @@ export default function Index() {
       { method: "post", action: "/api/v1/analyze" }
     );
   };
+<Card>
+  <Text as="h2" variant="headingSm">
+    How DigiCloset AI Works
+  </Text>
+  <Text as="p" tone="subdued">
+    DigiCloset analyzes your product images and metadata to generate
+    visually cohesive outfit recommendations. The AI improves over time
+    based on your approvals and rejections.
+  </Text>
+</Card>
 
   const sendFeedback = (outfitId: string, approved: boolean) => {
     fetcher.submit(
@@ -108,3 +118,8 @@ export default function Index() {
     </Page>
   );
 }
+{fetcher.data?.error && (
+  <Card tone="critical">
+    <Text>{fetcher.data.error}</Text>
+  </Card>
+)}
