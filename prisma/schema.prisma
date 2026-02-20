@@ -22,3 +22,11 @@ model AiResult {
   @@index([createdAt], map: "idx_ai_result_created_at")
   @@index([shop, productId, createdAt], map: "idx_ai_result_shop_product_created_at")
 }
+model Shop {
+  id                 Int      @id @default(autoincrement())
+  shopDomain         String   @unique
+  accessToken        String
+  scope              String?
+  subscriptionStatus String   @default("inactive")
+  installedAt        DateTime @default(now())
+}
