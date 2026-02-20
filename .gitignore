@@ -1,18 +1,6 @@
-<<<<<<< HEAD
 node_modules/
 .env
-=======
-You are an experienced software architect.
-
-Restructure this entire repository into a clean, production-ready architecture
-WITHOUT changing functionality.
-
-Requirements:
-
-Apply all changes directly to the repository.
-Explain the changes after completing them.
-node_modules
->>>>>>> a7a0c90 (restucture)
-node_modules/
-.env
-- Preserve deployment functionality
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.agent/

@@ -1,0 +1,26 @@
+# DigiCloset Model Registry
+# Track every model tested, configuration, performance metrics, and decision outcome.
+
+- model_name: sd_1_5_controlnet
+  provider: local
+  resolution: 512
+  steps: 20
+  controlnet: openpose
+  avg_latency_seconds: null
+  keypoint_deviation: null
+  ssim_score: null
+  catastrophic_failure_rate: null
+  cost_per_image: null
+  decision: pending
+
+- model_name: sd_3_5_large_turbo_controlnet
+  provider: novita
+  resolution: 512
+  steps: 20
+  controlnet: pose
+  avg_latency_seconds: null
+  keypoint_deviation: null
+  ssim_score: null
+  catastrophic_failure_rate: null
+  cost_per_image: null
+  decision: pending

@@ -11,4 +11,11 @@
 4. **Pull Request Checks:**
    - PRs introducing duplicate folders, ungated experimental code, or unapproved frontends will be rejected.
 
+
+5. **Engineering Discipline Rules:**
+   - **No Model Change Without Registry Update:** Any change to the model selection must be reflected in `docs/model_registry.yaml`.
+   - **No Credit Spending Without Experiment Log:** all cost-incurring runs must be logged in `docs/experiments/`.
+   - **No Parameter Change Without Changelog Entry:** Any change to generation parameters (steps, guidance, etc.) must be documented in `CHANGELOG.md`.
+   - **No Production Switch Without Quantitative Comparison:** Switching the production model requires a quantitative comparison (SSIM, Keypoint Deviation) against the baseline.
+
 For more details, see CONTRIBUTING.md.

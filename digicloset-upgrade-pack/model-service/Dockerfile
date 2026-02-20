@@ -3,5 +3,6 @@ WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 COPY . /app
+RUN apt-get update && apt-get install -y libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
 EXPOSE 8001
 CMD ["uvicorn","serve:app","--host","0.0.0.0","--port","8001"] 

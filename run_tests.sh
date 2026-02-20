@@ -11,21 +11,29 @@ cleanup() {
     echo "Cleaning up..."
     echo "--- BACKEND LOGS ---"
     docker logs backend
-    echo "--------------------"
+    echo "--- MODEL SERVICE LOGS ---"
+    docker logs model-service
+    echo "--------------------------"
     docker stop backend 2>/dev/null
     docker rm backend 2>/dev/null
+    docker stop model-service 2>/dev/null
+    docker rm model-service 2>/dev/null
     docker network rm digicloset-test-net 2>/dev/null
 }
 
 # Trap exit to ensure cleanup runs
 trap cleanup EXIT
 
-# 1. Start Backend in background
+# 1. Start Model Service in background
+echo "Starting Model Service..."
+docker run -d --name model-service --network digicloset-test-net model-service:test
+
+# 2. Start Backend in background
 echo "Starting Backend..."
 IMAGE_NAME=${1:-backend:test}
 echo "Using image: $IMAGE_NAME"
-# Run with name 'backend' on the network
-docker run -d --name backend --network digicloset-test-net "$IMAGE_NAME"
+# Run with name 'backend' on the network and link to model-service
+docker run -d --name backend --network digicloset-test-net -e MODEL_SERVICE_URL="http://model-service:8001/predict" "$IMAGE_NAME"
 
 # Wait for startup (simple sleep)
 sleep 10

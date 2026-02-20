@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Project Governance**: Established `REPOSITORY_RULES.md` update, `docs/model_registry.yaml`, and updated `README.md` with new governance framework (Cost Tracking, Model Registry, Experimentation Protocols).
 - **CI/CD**: Added backend build jobs to `.github/workflows/docker-image.yml` to ensure backend services are built and tested in the CI pipeline.
 - **Scripts**: Added `local_verification.ps1` PowerShell script to facilitate local testing of Docker builds for all services (model-service, backend) in both upgrade packs.
 - **Documentation**: Added maintainer information for Aditi Singh to `package.json`, `README.md`, and `CONTRIBUTING.md`.
