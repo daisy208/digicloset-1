@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "test": "echo \"No tests defined\" && exit 0",
+    "lint": "echo \"No linter configured\" && exit 0"
+  }
+}

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digicloset-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: digicloset-frontend
+  template:
+    metadata:
+      labels:
+        app: digicloset-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: your-registry/digicloset-frontend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: digicloset-config
+              key: NODE_ENV

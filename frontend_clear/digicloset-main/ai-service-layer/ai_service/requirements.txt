@@ -1,6 +1,9 @@
 fastapi
-uvicorn[standard]
+uvicorn
 pillow
 numpy
+scikit-learn
+python-multipart
 requests
-pydantic
+prometheus-client
+

@@ -10,7 +10,7 @@ This directory contains detailed documentation for the DigiCloset project.
 
 ## Technical Documentation
 - [data-governance.md](data-governance.md): Policies regarding data handling, retention, and privacy.
-- [db_migrations.md](db_migrations.md): Guide to managing database migrations with Alembic.
+- [db_migrations.md](db_migrations.md): Canonical Prisma + SQL/Supabase migration workflow.
 - [upgrade-pack_UPGRADE.md](upgrade-pack_UPGRADE.md): Instructions for applying the upgrade pack to the repository.
 - [upgrade-pack_SECURITY (1).md](upgrade-pack_SECURITY%20(1).md): Security considerations specific to the upgrade pack.
 

@@ -1,9 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 model AiResult {
-  id        String   @id @default(cuid())
-  shop      String
-  productId String
-  category  String
-  tags      Json
+  id         String   @id @default(cuid())
+  shop       String
+  productId  String
+  requestId  String?  @unique
+  category   String
+  tags       Json
   confidence Float
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([shop], map: "idx_ai_result_shop")
+  @@index([productId], map: "idx_ai_result_product_id")
+  @@index([createdAt], map: "idx_ai_result_created_at")
+  @@index([shop, productId, createdAt], map: "idx_ai_result_shop_product_created_at")
+}
+model Shop {
+  id                 Int      @id @default(autoincrement())
+  shopDomain         String   @unique
+  accessToken        String
+  scope              String?
+  subscriptionStatus String   @default("inactive")
+  installedAt        DateTime @default(now())
 }

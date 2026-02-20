@@ -119,3 +119,6 @@ async def analyze(file: UploadFile = File(...)):
     fit_score = max(0.3, 1.0 - unique_colors/500.0)
     recs = ["Heuristic fallback: low confidence. Install PyTorch or set HF_API_KEY for better results."]
     return {"colors": palette, "dominant_color": dominant, "fitScore": float(fit_score), "recommendations": recs, "method": "heuristic"}
+from app.api import feedback
+
+app.include_router(feedback.router, prefix="/api/v1")

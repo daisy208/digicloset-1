@@ -33,3 +33,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+from app.tasks_api import router as shopify_router
+
+app.include_router(shopify_router)
