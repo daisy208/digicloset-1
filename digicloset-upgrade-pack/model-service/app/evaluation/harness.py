@@ -6,6 +6,7 @@ import cv2
 from datetime import datetime
 from typing import Dict, Any, List
 from skimage.metrics import structural_similarity as ssim
+import mediapipe as mp
 
 # Placeholder for real pose estimation library
 # from controlnet_aux import OpenposeDetector 
@@ -29,14 +30,53 @@ class EvaluationHarness:
         return float(score)
 
     def compute_keypoint_deviation(self, original_image: np.ndarray, generated_image: np.ndarray) -> float:
-        # This is a stub using random deviation to simulate calculation.
-        # Real implementation requires loading an OpenPose model.
-        # detector = OpenposeDetector.from_pretrained("lllyasviel/ControlNet")
-        # kps1 = detector(original_image)
-        # kps2 = detector(generated_image)
-        # return distance(kps1, kps2)
-        
-        return np.random.uniform(0, 10) # Placeholder: 0-10 pixels deviation
+        try:
+            from ultralytics import YOLO
+            import sys
+            import os
+
+            # Suppress ultralytics output to keep console clean
+            old_stdout = sys.stdout
+            sys.stdout = open(os.devnull, 'w')
+            try:
+                # yolov8n-pose.pt will be downloaded automatically if not present
+                model = YOLO('yolov8n-pose.pt')
+                res1 = model(original_image, verbose=False)
+                res2 = model(generated_image, verbose=False)
+            finally:
+                sys.stdout.close()
+                sys.stdout = old_stdout
+
+            def extract_kps(res):
+                if not res or len(res) == 0 or not res[0].keypoints or res[0].keypoints.xy.shape[0] == 0:
+                    return None
+                kps = res[0].keypoints.xy[0].cpu().numpy()
+                if np.all(kps == 0):
+                    return None
+                return kps
+
+            kps1 = extract_kps(res1)
+            kps2 = extract_kps(res2)
+
+            if kps1 is None or len(kps1) == 0 or kps2 is None or len(kps2) == 0:
+                return float('inf')
+
+            # Ensure same number of keypoints (usually 17 for YOLO pose)
+            min_len = min(len(kps1), len(kps2))
+            
+            distances = []
+            for i in range(min_len):
+                # Filter out [0,0] keypoints which mean "not detected" by YOLO
+                if not (np.all(kps1[i] == 0) or np.all(kps2[i] == 0)):
+                    distances.append(np.linalg.norm(kps1[i] - kps2[i]))
+
+            if not distances:
+                return float('inf')
+
+            return float(np.mean(distances))
+        except Exception as e:
+            print(f"ML Keypoint Deviation calculation failed: {e}")
+            return float('inf')
 
     def log_experiment(self, 
                        model_name: str, 

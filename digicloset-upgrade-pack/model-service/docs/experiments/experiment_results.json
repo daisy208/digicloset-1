@@ -1,0 +1,58 @@
+[
+  {
+    "timestamp": "2026-02-20T09:38:08.303928",
+    "model_name": "runwayml/stable-diffusion-v1-5",
+    "provider": "local",
+    "parameters": {
+      "steps": 20,
+      "resolution": 512
+    },
+    "metrics": {
+      "ssim": 1.0,
+      "keypoint_deviation": 2.62597884214267
+    },
+    "output_path": "mock_output.jpg"
+  },
+  {
+    "timestamp": "2026-02-20T10:00:45.812784",
+    "model_name": "runwayml/stable-diffusion-v1-5",
+    "provider": "local",
+    "parameters": {
+      "steps": 20,
+      "resolution": 512
+    },
+    "metrics": {
+      "ssim": 1.0,
+      "keypoint_deviation": Infinity
+    },
+    "output_path": "mock_output.jpg"
+  },
+  {
+    "timestamp": "2026-02-20T10:12:20.064313",
+    "model_name": "runwayml/stable-diffusion-v1-5",
+    "provider": "local",
+    "parameters": {
+      "steps": 20,
+      "resolution": 512
+    },
+    "metrics": {
+      "ssim": 1.0,
+      "keypoint_deviation": Infinity
+    },
+    "output_path": "mock_output.jpg"
+  },
+  {
+    "timestamp": "2026-02-20T10:22:00.340267",
+    "model_name": "runwayml/stable-diffusion-v1-5",
+    "provider": "local",
+    "parameters": {
+      "steps": 20,
+      "resolution": 512
+    },
+    "metrics": {
+      "ssim": 1.0,
+      "keypoint_deviation": Infinity
+    },
+    "output_path": "mock_output.jpg"
+  }
+]

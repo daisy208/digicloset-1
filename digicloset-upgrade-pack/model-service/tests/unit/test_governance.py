@@ -67,9 +67,9 @@ class TestGovernance(unittest.TestCase):
         score = harness.compute_ssim(img1, img2)
         self.assertEqual(score, 1.0)
         
-        # Test Keypoint (mock returns 0-10)
+        # Test Keypoint (YOLOv8 returns inf for completely blank images with no people)
         kp_score = harness.compute_keypoint_deviation(img1, img2)
-        self.assertTrue(0 <= kp_score <= 10)
+        self.assertEqual(kp_score, float('inf'))
 
     def tearDown(self):
         import shutil
