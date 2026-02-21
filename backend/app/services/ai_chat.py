@@ -1,9 +1,3 @@
-def explain_product_score(product: dict) -> str:
+def explain_product_score(product):
     issues = product.get("issues", [])
-    if not issues:
-        return "This product is well optimized."
-
-    return (
-        "This product can be improved. "
-        "Main issues: " + ", ".join(issues)
-    )
+    return "All good" if not issues else "Issues: " + ", ".join(issues)
