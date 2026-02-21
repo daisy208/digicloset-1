@@ -31,6 +31,7 @@ import {
   Legend
 } from 'recharts';
 import { predictiveAnalytics } from '../services/predictiveAnalytics';
+import MerchantProfilePanel from './MerchantProfilePanel';
 
 interface DashboardMetrics {
   predictedRevenue: number;
@@ -341,6 +342,11 @@ const AIDashboard: React.FC = () => {
                 <Tooltip />
               </RechartsPieChart>
             </ResponsiveContainer>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div>
+            <MerchantProfilePanel />
           </div>
         </div>
 

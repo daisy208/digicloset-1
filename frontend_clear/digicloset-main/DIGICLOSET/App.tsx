@@ -57,7 +57,8 @@ function App() {
     { id: 'outfits', label: 'Outfits', icon: <Shirt size={20} /> },
     { id: 'colors', label: 'Colors', icon: <Sun size={20} /> },
     { id: 'preferences', label: 'AI Preferences', icon: <Sparkles size={20} /> },
-    { id: 'lighting', label: 'Lighting', icon: <Sun size={20} /> }
+    { id: 'lighting', label: 'Lighting', icon: <Sun size={20} /> },
+    { id: 'billing', label: 'Billing', icon: <Sparkles size={20} /> }
   ];
 
   return (
@@ -172,6 +173,11 @@ function App() {
                 )}
               </div>
             </div>
+            {/* Billing panel */}
+            <div className="mt-4">
+              <BillingPanel shopId={'demo-shop'} />
+              <AICreditsDashboard shopId={'demo-shop'} />
+            </div>
           </div>
 
           {/* Center Column - Main Content */}
@@ -240,6 +246,13 @@ function App() {
                 lightingSettings={lightingSettings}
                 onLightingChange={setLightingSettings}
               />
+            )}
+            {activeTab === 'billing' && (
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Billing & AI Credits</h2>
+                <BillingPanel shopId={'demo-shop'} />
+                <AICreditsDashboard shopId={'demo-shop'} />
+              </div>
             )}
           </div>
         </div>

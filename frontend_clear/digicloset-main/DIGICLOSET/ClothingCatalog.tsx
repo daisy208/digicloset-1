@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import ItemQualityBadge from './ItemQualityBadge';
+import CatalogBulkActions from './CatalogBulkActions';
+import CatalogQualityPanel from './CatalogQualityPanel';
+import CatalogSuggestionsPanel from './CatalogSuggestionsPanel';
 import { Heart, Star, Filter, Search } from 'lucide-react';
 import { ClothingItem, ClothingCategory, ClothingStyle } from '../types';
 import { mockClothingItems } from '../utils/mockData';
@@ -42,11 +46,11 @@ export const ClothingCatalog: React.FC<ClothingCatalogProps> = ({ onItemSelect, 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-          />
-        </div>
-        
+          </div>
+
+          {/* Suggestions + Items Grid */}
         <button
-          onClick={() => setShowFilters(!showFilters)}
+            {filteredItems.map(item => (
           className="flex items-center space-x-2 px-4 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
         >
           <Filter size={20} />
@@ -121,6 +125,10 @@ export const ClothingCatalog: React.FC<ClothingCatalogProps> = ({ onItemSelect, 
                 alt={item.name}
                 className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
               />
+                {/* quality badge */}
+                <div className="absolute left-2 bottom-2 bg-white bg-opacity-90 rounded-full px-2 py-1 text-xs font-medium">
+                  <ItemQualityBadge itemId={item.id} />
+                </div>
               <div className="absolute top-2 right-2 bg-white bg-opacity-90 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <Heart size={18} className="text-gray-600 hover:text-red-500" />
               </div>
@@ -157,11 +165,27 @@ export const ClothingCatalog: React.FC<ClothingCatalogProps> = ({ onItemSelect, 
         ))}
       </div>
 
+      <div className="mt-6">
+        <CatalogSuggestionsPanel itemId={selectedItems[0]?.id} shopId={"demo-shop"} />
+      </div>
+
       {filteredItems.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-500 text-lg">No items found matching your criteria.</p>
         </div>
       )}
+      {/* Bulk actions panel */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2">
+          <CatalogBulkActions selectedIds={selectedItems.map(i => i.id)} />
+        </div>
+        <div>
+          <CatalogQualityPanel onSelect={(id) => {
+            const item = mockClothingItems.find(it => it.id === id);
+            if (item) onItemSelect(item);
+          }} />
+        </div>
+      </div>
     </div>
   );
 };
