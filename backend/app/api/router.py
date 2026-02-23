@@ -19,3 +19,5 @@ from app.api.ai_marketing import router as ai_marketing_router
 def app_uninstalled(shop_id: str):
     cleanup_merchant_data(shop_id)
     return {"status": "ok"}
+from app.api.health import router as health_router
+router.include_router(health_router)
