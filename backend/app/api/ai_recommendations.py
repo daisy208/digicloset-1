@@ -12,3 +12,5 @@ logger = logging.getLogger(__name__)
 logger.info(
     log_recommendation_impression(merchant_id, recommendation_id)
 )
+AI_VERSION = "v1.0"
+"ai_version": AI_VERSION
