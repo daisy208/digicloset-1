@@ -1,0 +1,1 @@
+GLOBAL_DISABLE_AI = False
