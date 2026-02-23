@@ -15,3 +15,7 @@ from app.api.ai_alerts import router as ai_alerts_router
 from app.api.ai_recommendations import router as ai_recommendations_router
 from app.api.ai_conversion import router as ai_conversion_router
 from app.api.ai_marketing import router as ai_marketing_router
+@router.post("/webhooks/app_uninstalled")
+def app_uninstalled(shop_id: str):
+    cleanup_merchant_data(shop_id)
+    return {"status": "ok"}
