@@ -14,3 +14,8 @@ logger.info(
 )
 AI_VERSION = "v1.0"
 "ai_version": AI_VERSION
+{
+  "status": "degraded",
+  "reason": "timeout_fallback",
+  "recommendations": []
+}
