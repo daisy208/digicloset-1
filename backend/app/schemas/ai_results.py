@@ -7,3 +7,7 @@ class AIImageResult(BaseModel):
     alt_text: str
     tags: List[str]
     attributes: Dict[str, str]
+class AIErrorResponse(BaseModel):
+    status: str
+    reason: str
+    retryable: bool
