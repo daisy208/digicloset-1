@@ -4,3 +4,7 @@ def train_on_merchant_data(data, allow_training: bool = False):
         return None
 
     # existing training logic
+MAX_INFERENCE_TIME_MS = 300
+
+def run_inference(...):
+    # enforce timeout / fallback
