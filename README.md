@@ -3,6 +3,17 @@
 
 DigiCloset is a Shopify custom/private app for merchants. It uses AI to generate “Complete the Look” outfit bundles from your product catalog, helping you increase average order value and deliver personalized shopping experiences.
 
+## Shopify Production System
+
+This repository contains a production Shopify embedded app. Active, production-ready Shopify logic lives in the following directories:
+
+- `shopify-app-core/` — App Bridge + OAuth, webhook receivers, and storefront widget integration.
+- `app/` — Python FastAPI backend (API surface, AI inference services, and merchant-facing endpoints).
+- `shopify-billing/` and `backend/` — Billing scaffolding and billing-related service code.
+
+Other top-level folders (for example `archive/`, `digicloset-upgrade-pack-complete/`, `digicloset-upgrade-pack/`, `frontend_clear/`, and various `deprecated_archive/` folders) contain experimental, archival, or scaffold code and are not required for a standard production install. Treat those directories as reference or in-progress work.
+
+
 ## What It Does
 - Analyzes your Shopify product catalog
 - Suggests AI-powered outfit bundles (tops, bottoms, accessories, etc.)
