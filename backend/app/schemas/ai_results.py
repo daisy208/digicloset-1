@@ -11,3 +11,6 @@ class AIErrorResponse(BaseModel):
     status: str
     reason: str
     retryable: bool
+class RecommendationReason(BaseModel):
+    rule: str
+    confidence: float
