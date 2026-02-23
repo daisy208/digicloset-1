@@ -21,3 +21,9 @@ def app_uninstalled(shop_id: str):
     return {"status": "ok"}
 from app.api.health import router as health_router
 router.include_router(health_router)
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+
+limiter = Limiter(key_func=get_remote_address)
+@limiter.limit("60/minute")
+@router.post("/ai/recommendations")
