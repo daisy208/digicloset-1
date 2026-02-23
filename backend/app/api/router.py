@@ -27,3 +27,5 @@ from slowapi.util import get_remote_address
 limiter = Limiter(key_func=get_remote_address)
 @limiter.limit("60/minute")
 @router.post("/ai/recommendations")
+from app.api.merchant_settings import router as merchant_settings_router
+router.include_router(merchant_settings_router)
