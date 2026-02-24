@@ -10,6 +10,38 @@ sys.path.insert(0, str(ROOT))
 from app.main import app
 
 
+class DummyRedis:
+    def __init__(self):
+        self._d = {}
+
+    def setex(self, key, ttl, val):
+        self._d[key] = val
+
+    def get(self, key):
+        return self._d.get(key)
+
+    def setnx(self, key, val):
+        if key in self._d:
+            return False
+        self._d[key] = val
+        return True
+
+    def expire(self, key, ttl):
+        return True
+
+    def ping(self):
+        return True
+
+    def close(self):
+        return None
+
+
+@pytest.fixture(autouse=True)
+def inject_redis():
+    app.state.redis = DummyRedis()
+    yield
+
+
 @pytest.fixture
 def client():
     return TestClient(app)
@@ -24,3 +56,13 @@ def mock_ai_service(monkeypatch):
     # Attach to app state for tests
     app.state.ai_service = MockAIService()
     return app.state.ai_service
+
+
+@pytest.fixture
+def tenant_headers_a():
+    return {"x-shopify-shop-domain": "a.myshopify.com", "authorization": "Bearer tokA"}
+
+
+@pytest.fixture
+def tenant_headers_b():
+    return {"x-shopify-shop-domain": "b.myshopify.com", "authorization": "Bearer tokB"}
